@@ -7,7 +7,7 @@ export default defineConfig({
   treeshake: true,
   dts: true,
   // plugins: [nodeExternalsPlugin()],
-  external: ['vinxi/routes', 'fs', 'path', 'stream', 'sitemap'],
+  external: ['vinxi', 'fs', 'path', 'stream', 'sitemap'],
 
   // array or single object
 });
