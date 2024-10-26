@@ -10,15 +10,17 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Specify your preferred Node.js version
+          node-version: '20'
           cache: 'pnpm'
-
-      # Install pnpm globally
-      - name: Install pnpm
-        run: npm install -g pnpm
 
       # Install dependencies with pnpm
       - name: Install dependencies
