@@ -1,5 +1,5 @@
 import { ResolvedConfig } from 'vite';
-
+import routes from 'vinxi/routes';
 type VinxiFileRoute = { path: string; page: boolean; filePath: string };
 
 export async function getRoutes(config?: ResolvedConfig): Promise<VinxiFileRoute[]> {
@@ -10,8 +10,8 @@ export async function getRoutes(config?: ResolvedConfig): Promise<VinxiFileRoute
     if (!fileroutes) return [];
     return fileroutes;
   } else {
-    const fileRoutes = (await import('vinxi/routes')).default as VinxiFileRoute[];
-    return fileRoutes;
+    // const fileRoutes = (await import('vinxi/routes')).default as VinxiFileRoute[];
+    return routes as VinxiFileRoute[];
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "solid-start-sitemap",
-  "version": "0.0.4-alpha",
+  "version": "0.0.5-alpha",
   "description": "Solid-start Sitemap generator",
   "license": "MIT",
   "author": "madaxen86",
@@ -44,7 +44,8 @@
     "update-deps": "pnpm up -Li"
   },
   "peerDependencies": {
-    "solid-js": "^1.6.0"
+    "solid-js": "^1.6.0",
+    "vinxi": "^0.4.3"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.9",
