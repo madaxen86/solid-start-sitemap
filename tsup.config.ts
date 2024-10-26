@@ -1,4 +1,3 @@
-import { nodeExternalsPlugin } from 'esbuild-node-externals';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
@@ -6,8 +5,9 @@ export default defineConfig({
   platform: 'node',
   format: 'esm',
   treeshake: true,
+  dts: true,
   // plugins: [nodeExternalsPlugin()],
-  external: ['vinxi/routes', 'fs', 'path', 'stream','sitemap'],
+  external: ['vinxi/routes', 'fs', 'path', 'stream', 'sitemap'],
 
   // array or single object
 });
