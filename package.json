@@ -1,6 +1,6 @@
 {
   "name": "solid-start-sitemap",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha",
   "description": "Solid-start Sitemap generator",
   "license": "MIT",
   "author": "madaxen86",
@@ -32,14 +32,14 @@
   "typesVersions": {},
   "scripts": {
     "dev": "vite serve dev",
-    "build": "tsup --external vinxi/routes",
+    "build": "tsup --external vinxi/routes ",
     "test": "concurrently pnpm:test:*",
     "test:client": "vitest",
     "test:ssr": "pnpm run test:client --mode ssr",
     "prepublishOnly": "pnpm build",
     "format": "prettier --ignore-path .gitignore -w \"src/**/*.{js,ts,json,css,tsx,jsx}\" \"dev/**/*.{js,ts,json,css,tsx,jsx}\"",
     "lint": "concurrently pnpm:lint:*",
-    "lint:code": "eslint --ignore-path .gitignore --max-warnings 0 src/**/*.{js,ts,tsx,jsx}",
+    "lint:code": "eslint --ignore-path .gitignore --max-warnings 0 ssrc/**/*.{js,ts,tsx,jsx}",
     "lint:types": "tsc --noEmit",
     "update-deps": "pnpm up -Li"
   },

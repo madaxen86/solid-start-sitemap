@@ -5,6 +5,7 @@ const preset_options: preset.PresetOptions = {
   modify_esbuild_options: options => {
     options.platform = 'node';
     options.treeShaking = true;
+    options.external = ['vinxi/routes', 'fs', 'path', 'stream'];
     return options;
   },
   // array or single object
