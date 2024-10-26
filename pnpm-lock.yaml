@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      sitemap:
+        specifier: ^8.0.0
+        version: 8.0.0
     devDependencies:
       '@changesets/cli':
         specifier: ^2.27.9
@@ -41,9 +45,6 @@ importers:
       prettier:
         specifier: 3.3.3
         version: 3.3.3
-      sitemap:
-        specifier: ^8.0.0
-        version: 8.0.0
       solid-js:
         specifier: ^1.9.2
         version: 1.9.2
