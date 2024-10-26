@@ -1,17 +1,19 @@
+import { App } from 'vinxi';
 import { ResolvedConfig } from 'vite';
-import { getManifest } from 'vinxi/manifest';
 type VinxiFileRoute = { path: string; page: boolean; filePath: string };
 
-export async function getRoutes(config?: ResolvedConfig): Promise<VinxiFileRoute[]> {
+export async function getRoutes(config?: ResolvedConfig, path?: string): Promise<VinxiFileRoute[]> {
+  let router;
   if (config) {
-    const router = config.router.internals.routes;
-    if (!router) return [];
-    const fileroutes = (await router.getRoutes()) satisfies VinxiFileRoute[];
-    if (!fileroutes) return [];
-    return fileroutes;
+    router = config.router.internals.routes;
   } else {
-    return (await getManifest('client').routes()) as unknown as VinxiFileRoute[];
+    const app = (globalThis as any).app as App; //app added by vinxi
+    router = app.getRouter('client').internals.routes;
   }
+  if (!router) throw new Error('Could not get router from vinxi app');
+  const fileroutes = (await router.getRoutes()) satisfies VinxiFileRoute[];
+  if (!fileroutes) throw new Error('Could not get router from vinxi app');
+  return fileroutes;
 }
 
 export default getRoutes;

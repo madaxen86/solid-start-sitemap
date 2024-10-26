@@ -1,5 +1,4 @@
 import { createSitemap, getRoutes } from '@src';
-import fs from 'fs';
 import { isServer } from 'solid-js/web';
 export async function GET() {
   isServer;
@@ -10,6 +9,7 @@ export async function GET() {
     ':third': ['x', 'y'],
   };
   try {
+    const r = getRoutes(undefined, '/dev/app.config.ts');
     await createSitemap({
       hostname: 'http://localhost:3000',
       replaceRouteParams,
