@@ -17,7 +17,10 @@ const app = defineConfig({
       Plugin({
         hostname: 'http://localhost:3000',
         replaceRouteParams: {
-          ':postId': [1, 2, 3],
+          ':slug': ['solid', 'solid-start', 'hello'],
+          ':first': ['a', 'b', 'c'],
+          ':second': ['1', '2', '3'],
+          ':third': ['x', 'y'],
         },
         limit: 5000,
       }),

@@ -29,11 +29,12 @@ export default function SolidStartSiteMapPlugin(options: Options): Plugin {
   return {
     name: 'solid-start-sitemap',
     apply: 'build',
-    enforce: 'pre',
+    enforce: 'post',
     async configResolved(config) {
       // create sitemap only once - client router will always be build
       if (config.router.name === 'client') {
-        createSitemap({ ...options, pubDir: config.publicDir });
+        console.log('pubdir', config.publicDir);
+        await createSitemap({ ...options, pubDir: config.publicDir || 'public' });
       }
     },
   } as Plugin;

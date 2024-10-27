@@ -29,11 +29,11 @@ type MultipleSitemapOptions = {
 
 type SitemapOptions = { limit?: undefined } & SitemapStreamOptions;
 type DefaultLinkOptions = {
-  defaultLinkOptions?: Pick<SitemapItemLoose, 'changefreq' | 'priority'>;
+  defaultLinkOptions?: Pick<SitemapItemLoose, 'changefreq' | 'priority' | 'lastmod'>;
 };
 export type Options = (MultipleSitemapOptions | SitemapOptions) &
   TRoutes &
-  DefaultLinkOptions & { hostname: string; pubDir?: string; ingoreRoutes?: Array<string> };
+  DefaultLinkOptions & { hostname: string; pubDir?: string; ignoreRoutes?: Array<string> };
 
 /**
  * Generate a sitemap given a set of routes and options. The sitemap
@@ -42,7 +42,7 @@ export type Options = (MultipleSitemapOptions | SitemapOptions) &
  * @param {Options} options Options from the sitemap.js for the `SitemapStream` or if limit is specified`SitemapAndIndexStream` classes
  * @param {string} [options.hostname] The hostname of your site.
  * @param {string} [options.pubDir] The directory to write the sitemap to.
- * @param {string[]} [options.ingoreRoutes] Routes to ignore in the format ['/posts/:id', '/posts/:id/edit','/*slug']
+ * @param {string[]} [options.ignoreRoutes] Routes to ignore in the format ['/posts/:id', '/posts/:id/edit','/*slug']
  * @param {SitemapItemLoose[]} [options.dynamicRoutes] Array of routes to include.
  *   Use this to include custom routes or as an alternative for dynamic routes by replaceRouteParams
  * @param {TReplaceDynamic} [options.replaceRouteParams] A map of dynamic
@@ -67,17 +67,21 @@ export type Options = (MultipleSitemapOptions | SitemapOptions) &
 export async function createSitemap({
   dynamicRoutes,
   replaceRouteParams,
-  defaultLinkOptions = { changefreq: EnumChangefreq.DAILY, priority: 0.5 },
+  defaultLinkOptions = {
+    changefreq: EnumChangefreq.DAILY,
+    priority: 0.5,
+    lastmod: new Date().toISOString(),
+  },
   hostname,
   pubDir = 'public',
-  ingoreRoutes = [],
+  ignoreRoutes = [],
   ...options
 }: Prettify<Options>) {
-  const output = new Map<string, string>();
+  //const output = new Map<string, string>();
   const routes = await getRoutes();
 
   const fileRoutes = routes.filter(
-    r => r.page && !r.path.includes('/*') && !ingoreRoutes.includes(r.path),
+    r => r.page && !r.path.includes('/*') && !ignoreRoutes.includes(r.path),
   );
   console.log(
     routes.map(r => r.path),
@@ -85,7 +89,12 @@ export async function createSitemap({
   );
   if (!fileRoutes && !dynamicRoutes) throw new Error('no routes or dynamic routes found');
 
-  let smStream = getSitmapStream(options, hostname, pubDir, output);
+  let smStream = getSitmapStream(
+    options,
+    hostname,
+    pubDir,
+    //  output
+  );
   for (const route of fileRoutes) {
     const path = route.path.replace(/\(.*?\)/gi, '').replace(/\/\//gi, '/');
 
@@ -146,10 +155,11 @@ function getSitmapStream(
   options: SitemapOptions | MultipleSitemapOptions,
   hostname: string,
   pubDir: string,
-  output: Map<string, string>,
+  // output: Map<string, string>,
 ) {
   if (options.limit) {
     return new SitemapAndIndexStream({
+      lastmodDateOnly: true,
       getSitemapStream: i => {
         const sitemapStream = new SitemapStream({ hostname });
         // if your server automatically serves sitemap.xml.gz when requesting sitemap.xml leave this line be
@@ -161,14 +171,14 @@ function getSitmapStream(
           //.pipe(createGzip()) // compress the output of the sitemap
           .pipe(createWriteStream(resolve(path))); // write it to sitemap-NUMBER.xml
 
-        streamToPromise(sitemapStream).then(data => output.set(path, data.toString()));
+        //streamToPromise(sitemapStream).then(data => output.set(path, data.toString()));
 
         return [new URL(path, hostname).toString(), sitemapStream, ws];
       },
       ...options,
     });
   } else {
-    return new SitemapStream({ hostname, ...options });
+    return new SitemapStream({ hostname, ...options, lastmodDateOnly: true });
   }
 }
 
