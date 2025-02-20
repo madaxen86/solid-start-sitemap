@@ -83,10 +83,7 @@ export async function createSitemap({
   const fileRoutes = routes.filter(
     r => r.page && !r.path.includes('/*') && !ignoreRoutes.includes(r.path),
   );
-  console.log(
-    routes.map(r => r.path),
-    fileRoutes.map(r => r.path),
-  );
+
   if (!fileRoutes && !dynamicRoutes) throw new Error('no routes or dynamic routes found');
 
   let smStream = getSitmapStream(

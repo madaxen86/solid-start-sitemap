@@ -1,8 +1,5 @@
 // @refresh reload
-import { createHandler, StartServer } from '@solidjs/start/server';
-import { consola } from 'consola/basic';
-
-consola.log('Hello world');
+import { createHandler, StartServer } from "@solidjs/start/server";
 
 export default createHandler(() => (
   <StartServer

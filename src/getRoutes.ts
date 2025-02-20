@@ -5,7 +5,9 @@ type VinxiFileRoute = { path: string; page: boolean; filePath: string };
 export async function getRoutes(config?: ResolvedConfig, path?: string): Promise<VinxiFileRoute[]> {
   let router;
   if (config) {
-    router = config.router.internals.routes;
+    console.log('####', config);
+
+    //router = config.router.internals.routes;
   } else {
     const app = (globalThis as any).app as App; //app added by vinxi
     router = app.getRouter('client').internals.routes;

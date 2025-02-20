@@ -27,5 +27,3 @@ gitignore
 # System Files
 .DS_Store
 Thumbs.db
-
-/public/*.xml

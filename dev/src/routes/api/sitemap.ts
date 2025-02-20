@@ -1,4 +1,4 @@
-import { createSitemap, getRoutes } from '@src';
+import { createSitemap, getRoutes } from '../../../../src';
 import { isServer } from 'solid-js/web';
 export async function GET() {
   isServer;
@@ -14,7 +14,7 @@ export async function GET() {
       hostname: 'http://localhost:3000',
       replaceRouteParams,
       // limit: 5,
-      ingoreRoutes: ['/about'],
+      ignoreRoutes: ['/about'],
     });
 
     return new Response('created sitemap');

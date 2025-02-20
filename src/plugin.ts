@@ -9,12 +9,12 @@ import { createSitemap, Options } from './sitemap';
  *
  * @example
  * import { defineConfig } from '@solidjs/start/config';
- * import SolidStartSiteMapPlugin from 'solid-start-sitemap';
+ * import solidStartSiteMapPlugin from 'solid-start-sitemap';
  *
  * export default defineConfig({
  *   vite: {
  *     plugins: [
- *      SolidStartSiteMapPlugin({
+ *      solidStartSiteMapPlugin({
  *       hostname: 'https://example.com',
  *       replaceRouteParams: {
  *         ':postId': [1, 2, 3],
@@ -25,7 +25,7 @@ import { createSitemap, Options } from './sitemap';
  *   },
  * });
  */
-export default function SolidStartSiteMapPlugin(options: Options): Plugin {
+export default function solidStartSiteMapPlugin(options: Options): Plugin {
   return {
     name: 'solid-start-sitemap',
     apply: 'build',

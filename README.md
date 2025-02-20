@@ -54,12 +54,12 @@ It will add a `sitemap.xml` or if you pass
 ```tsx
 //app.config.ts
 import { defineConfig } from '@solidjs/start/config';
-import { SolidStartSiteMapPlugin } from 'solid-start-sitemap';
+import { solidStartSiteMapPlugin } from 'solid-start-sitemap';
 
 export default defineConfig({
   vite: {
     plugins: [
-      SolidStartSiteMapPlugin({
+      solidStartSiteMapPlugin({
         hostname: 'https://example.com',
         replaceRouteParams: {
           ':postId': [1, 2, 3],
