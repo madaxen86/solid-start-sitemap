@@ -9,15 +9,16 @@ export async function GET() {
     ':third': ['x', 'y'],
   };
   try {
-    const r = getRoutes(undefined, '/dev/app.config.ts');
-    await createSitemap({
+    const r = await getRoutes();
+    console.log(r);
+    const s = await createSitemap({
       hostname: 'http://localhost:3000',
       replaceRouteParams,
       // limit: 5,
-      ignoreRoutes: ['/about'],
+      ignoreRoutes: ['/about', '/auth/test'],
     });
 
-    return new Response('created sitemap');
+    return new Response(JSON.stringify(r), { headers: { 'Content-Type': 'application/json' } });
   } catch (e) {
     return new Response(e instanceof Error ? e.message : JSON.stringify(e), { status: 500 });
   }

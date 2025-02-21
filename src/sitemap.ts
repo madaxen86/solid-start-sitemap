@@ -77,14 +77,19 @@ export async function createSitemap({
   ignoreRoutes = [],
   ...options
 }: Prettify<Options>) {
-  //const output = new Map<string, string>();
   const routes = await getRoutes();
 
-  const fileRoutes = routes.filter(
-    r => r.page && !r.path.includes('/*') && !ignoreRoutes.includes(r.path),
-  );
+  const fileRoutes = routes.filter(r => {
+    return (
+      r.page &&
+      !r.path.includes('/*') &&
+      !ignoreRoutes.includes(r.path) &&
+      !ignoreRoutes.includes(r.path + '/')
+    );
+  });
 
-  if (!fileRoutes && !dynamicRoutes) throw new Error('no routes or dynamic routes found');
+  if (!fileRoutes || (!fileRoutes.length && !dynamicRoutes))
+    throw new Error('no routes or dynamic routes found');
 
   let smStream = getSitmapStream(
     options,
@@ -93,7 +98,7 @@ export async function createSitemap({
     //  output
   );
   for (const route of fileRoutes) {
-    const path = route.path.replace(/\(.*?\)/gi, '').replace(/\/\//gi, '/');
+    const path = route.path;
 
     if (isDynamic(path)) {
       //console.log('dynamic');
@@ -141,11 +146,6 @@ export async function createSitemap({
 
   smStream.pipe(createWriteStream(resolve(`./${pubDir}/sitemap.xml`)));
   smStream.end();
-  // const txt = await streamToPromise(smStream).then(data => {
-  //   return data.toString();
-  // });
-  // output.set('index', txt);
-  //writeFileSync('./public/sitemap.xml', txt, 'utf-8');
 }
 
 function getSitmapStream(
