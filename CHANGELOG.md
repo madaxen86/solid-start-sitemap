@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- fix duplicate entries due to layouts and fix ingoreRoutes
+- fix duplicate entries due to layouts and fix ignoreRoutes
 
 ## 0.2.0
 
