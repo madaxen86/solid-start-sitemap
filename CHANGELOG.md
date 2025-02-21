@@ -1,5 +1,11 @@
 # solid-start-sitemap
 
+## 0.2.2
+
+### Patch Changes
+
+- fix typo in README
+
 ## 0.2.1
 
 ### Patch Changes
