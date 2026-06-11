@@ -41,11 +41,12 @@
     "lint": "concurrently pnpm:lint:*",
     "lint:code": "eslint --ignore-path .gitignore --max-warnings 0 ssrc/**/*.{js,ts,tsx,jsx}",
     "lint:types": "tsc --noEmit",
-    "update-deps": "pnpm up -Li"
+    "update-deps": "pnpm up -Li",
+    "version-package": "changeset version",
+    "publish": "pnpm version-package && changeset publish"
   },
   "peerDependencies": {
-    "solid-js": ">=1.6.0",
-    "vinxi": ">=0.4.3"
+    "solid-js": ">=1.6.0"
   },
   "dependencies": {
     "sitemap": "^8.0.0"
@@ -65,8 +66,7 @@
     "solid-js": "^1.9.4",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",
-    "vinxi": "^0.5.3",
-    "vite": "^5.4.14",
+    "vite": "^6.4.3 || ^7.0.0 || ^8.0.0",
     "vitest": "^2.1.9"
   },
   "keywords": [

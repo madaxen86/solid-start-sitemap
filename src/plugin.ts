@@ -1,6 +1,5 @@
-import { Plugin } from 'vinxi';
 import { createSitemap, Options } from './sitemap';
-
+import { Plugin } from 'vite';
 /**
  * SolidStart plugin to generate a static sitemap during build.
  *
@@ -32,7 +31,8 @@ export default function solidStartSiteMapPlugin(options: Options): Plugin {
     enforce: 'post',
     async configResolved(config) {
       // create sitemap only once - client router will always be build
-      if (config.router.name === 'client') {
+      //@ts-expect-error - cant type vinxi and vite
+      if (config.router?.name === 'client') {
         console.log('pubdir', config.publicDir);
         await createSitemap({ ...options, pubDir: config.publicDir || 'public' });
       }
