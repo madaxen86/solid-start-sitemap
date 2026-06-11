@@ -1,5 +1,12 @@
 # solid-start-sitemap
 
+## 0.2.3
+
+### Patch Changes
+
+- 9059845: remove vinxi - add approve build esbuild
+- 5231b82: compat for solid-start-v2
+
 ## 0.2.2
 
 ### Patch Changes
