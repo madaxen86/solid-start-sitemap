@@ -1,13 +1,36 @@
-import { App } from 'vinxi';
-import { ResolvedConfig } from 'vite';
-type VinxiFileRoute = { path: string; page: boolean; filePath: string };
 
-export async function getRoutes(): Promise<VinxiFileRoute[]> {
-  const app = (globalThis as any).app as App; //app added by vinxi
-  const router = app.getRouter('client').internals.routes;
+export type _FileRoute = {
+  path: string;
+  page: boolean;
+  filePath?: string;
+  $component?: {
+    src: string;
+  };
+};
+export type FileRoute = Required<_FileRoute>;
+type BaseFileSystemRouter = {
+  getRoutes: () => Promise<_FileRoute[]>;
+};
+let router: BaseFileSystemRouter | undefined;
+export async function getRoutes(): Promise<FileRoute[]> {
+   if (!router) {
+    const app = (globalThis as any)?.app;
+    if (app) router = app?.getRouter?.('client')?.internals?.routes;
+    const clientRouter = (globalThis as any)?.ROUTERS?.client;
+    if (clientRouter) router = clientRouter;
+  }
 
-  if (!router) throw new Error('Could not get router from vinxi app');
-  const fileroutes = (await router.getRoutes()) satisfies VinxiFileRoute[];
+  if (!router) return [];
+  const fileroutes = (await router.getRoutes()).map(r => {
+    r;
+    if (!r.filePath) return { ...r, filePath: r.$component!.src } as FileRoute;
+    return {
+      ...r,
+      $component: {
+        src: r.filePath,
+      },
+    } as FileRoute;
+  })
   if (!fileroutes) throw new Error('Could not get router from vinxi app');
   const cleanedRoutes = fileroutes
     .filter(
@@ -16,7 +39,7 @@ export async function getRoutes(): Promise<VinxiFileRoute[]> {
         !isLayout(route.path, route.filePath, fileroutes),
     )
     .map(({ path, ...r }) => ({ ...r, path: cleanPath(path) }))
-    .sort((a, b) => a.length - b.length);
+    .sort((a, b) => a.path.length - b.path.length);
   return cleanedRoutes;
 }
 
@@ -33,16 +56,9 @@ function cleanPath(path: string) {
   );
 }
 
-function isValidFile(path: string, routeRootPath: string) {
-  return (
-    path.includes(routeRootPath) &&
-    !path.endsWith('RouteManifest/index.js') &&
-    !path.endsWith('RouteManifest/index.d.ts') &&
-    path.match(/\.[tj]sx?$/gi)
-  );
-}
 
-function isLayout(route: string, filePath: string, allRoutes: VinxiFileRoute[]): boolean {
+
+function isLayout(route: string, filePath: string, allRoutes: FileRoute[]): boolean {
   // Check if any route in allRoutes starts with route + "/"
   return allRoutes.some(r => r.path.startsWith(route + '/') && r.filePath !== filePath);
 }

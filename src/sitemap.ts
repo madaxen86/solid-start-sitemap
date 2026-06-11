@@ -10,7 +10,7 @@ import {
   streamToPromise,
 } from 'sitemap';
 import { Readable } from 'stream';
-import getRoutes from './getRoutes';
+import {getRoutes} from './getRoutes';
 
 type Prettify<T extends Record<string, any>> = { [K in keyof T]: T[K] };
 
